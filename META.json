@@ -1,7 +1,7 @@
 {
-   "abstract" : "It's new $module",
+   "abstract" : "Perform 301 redirects based on regexps",
    "author" : [
-      "Eric Johnson <eric.git@iijo.org>"
+      "Eric Johnson <lt>eric.git@iijo.org<gt>"
    ],
    "dynamic_config" : 0,
    "generated_by" : "Minilla/v0.4.4, CPAN::Meta::Converter version 2.120921",
@@ -52,5 +52,19 @@
       }
    },
    "release_status" : "unstable",
-   "version" : "0.01"
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/kablamo/Plack-Middleware-Redirect/issues"
+      },
+      "homepage" : "https://github.com/kablamo/Plack-Middleware-Redirect",
+      "repository" : {
+         "type" : "git",
+         "url" : "git://github.com/kablamo/Plack-Middleware-Redirect.git",
+         "web" : "https://github.com/kablamo/Plack-Middleware-Redirect"
+      }
+   },
+   "version" : "0.01",
+   "x_contributors" : [
+      "Eric Johnson <eric.git@iijo.org>"
+   ]
 }
