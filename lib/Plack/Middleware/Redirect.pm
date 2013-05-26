@@ -3,8 +3,49 @@ use 5.008005;
 use strict;
 use warnings;
 
+use parent 'Plack::Middleware';
+
+use Plack::Util::Accessor qw/url_map/;
+
 our $VERSION = "0.01";
 
+sub call {
+    my ( $self, $env ) = @_;
+
+    my $path  = $env->{PATH_INFO};
+    my $query = $env->{QUERY_STRING};
+
+    my $url_map = $self->url_map;
+
+    for ( my $i = 0; $i < scalar(@$url_map); $i += 2 ) {
+        my $from = $url_map->[$i];
+        my $to   = $url_map->[ $i + 1 ];
+
+        next unless $path =~ /$from/;
+
+        # if $to is code ref, execute the code ref
+        if ( ref $to eq 'CODE' ) {
+            $path = $to->( $env, $from );
+        }
+
+        # else assume $to is regexp string and do a substitution
+        else {
+            eval '$path =~ s|' . $from . '|' . $to . '|';
+            die $@ if $@;
+        }
+
+        # append the query string
+        if ($query) {
+            $path .= $path =~ /\?/    #
+                ? '&' . $query
+                : '?' . $query;
+        }                                                                                                                                                      
+
+        return [ 301, [ 'Location' => $path ], [] ];
+    }
+
+    return $self->app->($env);
+}
 
 
 1;
